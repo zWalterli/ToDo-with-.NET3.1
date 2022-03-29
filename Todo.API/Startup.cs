@@ -89,7 +89,7 @@ namespace VUTTR.API
                     .RequireAuthenticatedUser().Build());
             });
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnectionExpress");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<TodoContext>(options =>
                 options.UseSqlServer( connectionString, b => b.MigrationsAssembly("Todo.API")));
@@ -98,6 +98,7 @@ namespace VUTTR.API
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            
             services.AddScoped<ITodoService, TodoService>();
             services.AddScoped<ITodoRepository, TodoRepository>();
 
@@ -106,11 +107,11 @@ namespace VUTTR.API
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VUTTR.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo.API", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
                     In = ParameterLocation.Header, 
-                    Description = "Enter the Jwt code in the field below.",
+                    Description = "Enter the Jwt code in the field below. (Ex.: Bearer + {jwtCode} )",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey 
                 });
