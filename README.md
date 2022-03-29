@@ -79,6 +79,18 @@ This is a json to access the API as an normal user.
         "email": "teste_um@teste_um.com",
         "password": "123456"
     }
+
+
+### Run tests from API
+
+first exit the current folder
+    cd ../
+
+after exit, enter the folder the tests
+    cd Todo.Tests
+
+finally, execute the tests
+    dotnet test
 ### About
 ---
 
