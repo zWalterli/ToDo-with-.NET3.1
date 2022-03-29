@@ -83,15 +83,15 @@ This is a json to access the API as an normal user.
 
 ### Run tests from API
 
-first exit the current folder
+First exit the current folder
 
     cd ../
 
-after exit, enter the folder the tests
+After exit, enter the folder the tests
 
     cd Todo.Tests
 
-finally, execute the tests
+Finally, execute the tests
 
     dotnet test
 ### About
