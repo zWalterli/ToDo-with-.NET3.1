@@ -65,7 +65,7 @@ namespace Todo.Data.Context
                        TodoId = 1,
                        DateInsertion = DateTime.Now.AddDays(-4),
                        Deadline = DateTime.Now.AddDays(+5),
-                       Description = "Primeira tarefa",
+                       Description = "Primeira tarefa do usuario 2",
                        Status = Domain.Enum.StatusTodoEnum.BACKLOG,
                        UserId = 2
                    },
@@ -74,7 +74,7 @@ namespace Todo.Data.Context
                        TodoId = 2,
                        DateInsertion = DateTime.Now.AddDays(-2),
                        Deadline = DateTime.Now.AddDays(+3),
-                       Description = "Segunda tarefa",
+                       Description = "Segunda tarefa do usuario 2",
                        Status = Domain.Enum.StatusTodoEnum.TODO,
                        UserId = 2
                    },
@@ -83,7 +83,7 @@ namespace Todo.Data.Context
                        TodoId = 3,
                        DateInsertion = DateTime.Now.AddDays(-1),
                        Deadline = DateTime.Now.AddDays(+1),
-                       Description = "Terceira tarefa",
+                       Description = "Terceira tarefa do usuario 2",
                        Status = Domain.Enum.StatusTodoEnum.DOING,
                        UserId = 2
                    },
@@ -92,7 +92,7 @@ namespace Todo.Data.Context
                        TodoId = 4,
                        DateInsertion = DateTime.Now.AddDays(-10),
                        Deadline = DateTime.Now.AddDays(-1),
-                       Description = "Quarta tarefa",
+                       Description = "Quarta tarefa do usuario 2",
                        Status = Domain.Enum.StatusTodoEnum.DOING,
                        UserId = 2
                    },
@@ -101,7 +101,7 @@ namespace Todo.Data.Context
                        TodoId = 5,
                        DateInsertion = DateTime.Now.AddDays(-9),
                        Deadline = DateTime.Now.AddDays(-2),
-                       Description = "Quinta tarefa",
+                       Description = "Quinta tarefa do usuario 2",
                        Status = Domain.Enum.StatusTodoEnum.TODO,
                        UserId = 2
                    },
@@ -112,7 +112,7 @@ namespace Todo.Data.Context
                        TodoId = 6,
                        DateInsertion = DateTime.Now.AddDays(-10),
                        Deadline = DateTime.Now.AddDays(-1),
-                       Description = "Primeira tarefa",
+                       Description = "Primeira tarefa do usuario 3",
                        Status = Domain.Enum.StatusTodoEnum.DOING,
                        UserId = 3
                    },
@@ -121,7 +121,7 @@ namespace Todo.Data.Context
                        TodoId = 7,
                        DateInsertion = DateTime.Now.AddDays(-9),
                        Deadline = DateTime.Now.AddDays(-2),
-                       Description = "Segunda tarefa",
+                       Description = "Segunda tarefa do usuario 3",
                        Status = Domain.Enum.StatusTodoEnum.TODO,
                        UserId = 3
                    },
@@ -130,7 +130,7 @@ namespace Todo.Data.Context
                        TodoId = 8,
                        DateInsertion = DateTime.Now.AddDays(-4),
                        Deadline = DateTime.Now.AddDays(+5),
-                       Description = "Terceira tarefa",
+                       Description = "Terceira tarefa do usuario 3",
                        Status = Domain.Enum.StatusTodoEnum.BACKLOG,
                        UserId = 3
                    },
@@ -141,7 +141,7 @@ namespace Todo.Data.Context
                        TodoId = 9,
                        DateInsertion = DateTime.Now,
                        Deadline = DateTime.Now.AddDays(+14),
-                       Description = "Gerenciar a equipe",
+                       Description = "Gerenciar a equipe do usuario 1",
                        Status = Domain.Enum.StatusTodoEnum.TODO,
                        UserId = 1
                    }
