@@ -64,7 +64,7 @@ Here is an example of how to use this API:
 
 ### Accessing the API with ADM
 
-    This is a json to access the API as an administrator.
+This is a json to access the API as an administrator.
 
     {
         "email": "admin@admin.com",
@@ -73,7 +73,7 @@ Here is an example of how to use this API:
 
 ### Accessing the API with normal user
 
-    This is a json to access the API as an administrator.
+This is a json to access the API as an administrator.
 
     {
         "email": "teste_um@teste_um.com",
