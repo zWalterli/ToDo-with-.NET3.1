@@ -73,7 +73,7 @@ This is a json to access the API as an administrator.
 
 ### Accessing the API with normal user
 
-This is a json to access the API as an administrator.
+This is a json to access the API as an normal user.
 
     {
         "email": "teste_um@teste_um.com",
