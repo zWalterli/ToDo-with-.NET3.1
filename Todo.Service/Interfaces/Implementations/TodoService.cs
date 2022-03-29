@@ -63,7 +63,7 @@ namespace VUTTR.Service.Interfaces.Implementations
             var todoModel = _mapper.Map<TodoItem>(todo);
 
             if (!todoModel.isValid)
-                throw new Exception("Informações não são válidas");
+                throw new Exception("Informações não são válidas!");
 
             ValidarStatus((int)todoModel.Status);
 

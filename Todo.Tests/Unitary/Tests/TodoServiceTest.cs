@@ -8,9 +8,9 @@ using Todo.Domain.ViewModels;
 using System.Threading.Tasks;
 using Todo.Domain.Models;
 using AutoMapper;
+using System;
 using Xunit;
 using Moq;
-using System;
 
 namespace Todo.Tests.Unitary.Tests
 {
@@ -23,7 +23,6 @@ namespace Todo.Tests.Unitary.Tests
         private readonly Mock<TokenConfigurations> _configuration;
         private readonly List<StatusConfiguration> _statusConfiguration;
         private readonly TodoService todoService;
-
         public TodoServiceTest()
         {
             _mapper = new Mock<IMapper>();
@@ -173,6 +172,24 @@ namespace Todo.Tests.Unitary.Tests
         }
 
         [Fact]
+        public async Task Insert_PassandoInvaloresValidos_TodoInvalid_RetornandoException()
+        {
+            // Arrange
+            var dto = TodoItemMock.TodoItemOneMock();
+            dto.UserId = 0;
+            _mapper.Setup(x => x.Map<TodoItem>(It.IsAny<TodoItemViewModel>()))
+                .Returns(dto);
+
+            // Act
+            var exception = await Record.ExceptionAsync(async () 
+                => await todoService.Insert(todo: TodoItemViewModelMock.TodoItemViewModelOneMock()));
+
+            // Assert
+            Assert.Equal("Informações não são válidas!", exception.Message);
+            Assert.IsType<Exception>(exception);
+        }
+
+        [Fact]
         public async Task Update_PassandoValoresValidos_RetornandoUmRegistro()
         {
             // Arrange
@@ -200,6 +217,70 @@ namespace Todo.Tests.Unitary.Tests
         }
 
         [Fact]
+        public async Task Update_PassandoInvaloresValidos_TodoEmDone_RetornandoException()
+        {
+            // Arrange
+            _mapper.Setup(x => x.Map<TodoItem>(It.IsAny<TodoItemViewModel>()))
+                .Returns(TodoItemMock.TodoItemOneMock());
+
+            var resultadoDto = TodoItemViewModelMock.TodoItemViewModelOneMock();
+            resultadoDto.Status = Domain.Enum.StatusTodoEnum.DONE;
+            _mapper.Setup(x => x.Map<TodoItemViewModel>(It.IsAny<TodoItem>()))
+                .Returns(resultadoDto);
+
+            _todoRepository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns(Task.FromResult(TodoItemMock.TodoItemOneMock()));
+
+            // Act
+            var exception = await Record.ExceptionAsync(async () 
+                => await todoService.Update(todo: TodoItemViewModelMock.TodoItemViewModelOneMock()));
+
+            // Assert
+            Assert.Equal("Não foi possível atualizar um item TODO que já foi finalizado anteriormente.", exception.Message);
+            Assert.IsType<Exception>(exception);
+        }
+
+        [Fact]
+        public async Task Update_PassandoInvaloresValidos_TodoInvalid_RetornandoException()
+        {
+            // Arrange
+            var dto = TodoItemMock.TodoItemOneMock();
+            dto.UserId = 0;
+            _mapper.Setup(x => x.Map<TodoItem>(It.IsAny<TodoItemViewModel>()))
+                .Returns(dto);
+
+            _mapper.Setup(x => x.Map<TodoItemViewModel>(It.IsAny<TodoItem>()))
+                .Returns(TodoItemViewModelMock.TodoItemViewModelOneMock());
+
+            _todoRepository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns(Task.FromResult(TodoItemMock.TodoItemOneMock()));
+            
+            // Act
+            var exception = await Record.ExceptionAsync(async () 
+                => await todoService.Update(todo: TodoItemViewModelMock.TodoItemViewModelOneMock()));
+
+            // Assert
+            Assert.Equal("Informações não são válidas", exception.Message);
+            Assert.IsType<Exception>(exception);
+        }
+        
+        [Fact]
+        public async Task Update_PassandoValoresInvalidos_TodoIdVazio_RetornandoException()
+        {
+            // Arrange
+            // ...
+
+            // Act
+            var dto = TodoItemViewModelMock.TodoItemViewModelOneMock();
+            dto.TodoId = null;
+            var exception = await Record.ExceptionAsync(async () => await todoService.Update(todo: dto));
+
+            // Assert
+            Assert.Equal("Não foi possível capturar o identificador.", exception.Message);
+            Assert.IsType<Exception>(exception);
+        }
+
+        [Fact]
         public async Task Delete_PassandoValoresValidos_SemRetorno()
         {
             // Arrange
@@ -217,6 +298,20 @@ namespace Todo.Tests.Unitary.Tests
 
             // Assert
             Assert.True(true);
+        }
+
+        [Fact]
+        public async Task Delete_PassandoValoresInvalidos_RetornandoException()
+        {
+            // Arrange
+            // ...
+
+            // Act
+            var exception = await Record.ExceptionAsync(async () => await todoService.Delete(todoId: 0));
+
+            // Assert
+            Assert.Equal("Identificador inválido!", exception.Message);
+            Assert.IsType<Exception>(exception);
         }
     }
 }
