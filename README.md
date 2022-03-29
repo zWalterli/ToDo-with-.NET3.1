@@ -60,7 +60,25 @@ Here is an example of how to use this API:
 ### URL to use Swagger
 
     http://localhost:3000/swagger/index.html
-    
+
+
+### Accessing the API with ADM
+
+    This is a json to access the API as an administrator.
+
+    {
+        "email": "admin@admin.com",
+        "password": "123456"
+    }
+
+### Accessing the API with normal user
+
+    This is a json to access the API as an administrator.
+
+    {
+        "email": "teste_um@teste_um.com",
+        "password": "123456"
+    }
 ### About
 ---
 

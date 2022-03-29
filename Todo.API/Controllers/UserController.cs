@@ -42,28 +42,6 @@ namespace VUTTR.API.Controllers
             }
         }
 
-        [HttpGet("{UserId}")]
-        [Authorize("Bearer")]
-        public async Task<ActionResult<ResponseViewModel>> GetById([FromRoute] int UserId)
-        {
-            try
-            {
-                return Ok(
-                    new ResponseViewModel<UserViewModel>(
-                        true,
-                        "Registros obtidos com sucesso!",
-                        await _userService.GetById(UserId, false)
-                    )
-                );
-            }
-            catch (Exception e)
-            {
-                return BadRequest(
-                    new ResponseViewModel(false, "Ocorreu um erro ao obter os registros!", e.Message)
-                );
-            }
-        }
-
         [HttpPost("login")]
         [AllowAnonymousAttribute]
         public async Task<ActionResult<ResponseViewModel>> Login([FromBody] UserViewModel user)
