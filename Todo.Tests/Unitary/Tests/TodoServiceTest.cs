@@ -162,9 +162,19 @@ namespace Todo.Tests.Unitary.Tests
 
             _todoRepository.Setup(x => x.GetById(It.IsAny<int>()))
                 .Returns(Task.FromResult(TodoItemMock.TodoItemOneMock()));
+                
+            _userService.Setup(x => x.GetByEmail(It.IsAny<string>()))
+                .Returns(Task.FromResult(UserViewModelMock.UserViewModelMock_User()));
+
+                
+            var todo = TodoItemViewModelMock.TodoItemViewModelOneMock();
+            todo.TodoId = null;
 
             // Act
-            var res = await todoService.Insert(todo: TodoItemViewModelMock.TodoItemViewModelOneMock());
+            var res = await todoService.Insert(
+                todo: todo,
+                email: "teste@teste.com.br"
+            );
 
             // Assert
             Assert.NotNull(res);
@@ -179,10 +189,19 @@ namespace Todo.Tests.Unitary.Tests
             dto.UserId = 0;
             _mapper.Setup(x => x.Map<TodoItem>(It.IsAny<TodoItemViewModel>()))
                 .Returns(dto);
+                
+            _userService.Setup(x => x.GetByEmail(It.IsAny<string>()))
+                .Returns(Task.FromResult(UserViewModelMock.UserViewModelMock_User()));
 
+            var todo = TodoItemViewModelMock.TodoItemViewModelOneMock();
+            todo.TodoId = null;
+            
             // Act
             var exception = await Record.ExceptionAsync(async () 
-                => await todoService.Insert(todo: TodoItemViewModelMock.TodoItemViewModelOneMock()));
+                => await todoService.Insert(
+                    todo: todo,
+                    email: "teste@teste.com.br")
+                );
 
             // Assert
             Assert.Equal("Informações não são válidas!", exception.Message);
@@ -209,7 +228,9 @@ namespace Todo.Tests.Unitary.Tests
                 .Returns(Task.FromResult(TodoItemMock.TodoItemOneMock()));
 
             // Act
-            var res = await todoService.Update(todo: TodoItemViewModelMock.TodoItemViewModelOneMock());
+            var res = await todoService.Update(
+                todo: TodoItemViewModelMock.TodoItemViewModelOneMock(),
+                email: "teste@teste.com.br");
 
             // Assert
             Assert.NotNull(res);
@@ -233,7 +254,10 @@ namespace Todo.Tests.Unitary.Tests
 
             // Act
             var exception = await Record.ExceptionAsync(async () 
-                => await todoService.Update(todo: TodoItemViewModelMock.TodoItemViewModelOneMock()));
+                => await todoService.Update(
+                    todo: TodoItemViewModelMock.TodoItemViewModelOneMock(),
+                    email: "teste@teste.com.br")
+                );
 
             // Assert
             Assert.Equal("Não foi possível atualizar um item TODO que já foi finalizado anteriormente.", exception.Message);
@@ -257,7 +281,10 @@ namespace Todo.Tests.Unitary.Tests
             
             // Act
             var exception = await Record.ExceptionAsync(async () 
-                => await todoService.Update(todo: TodoItemViewModelMock.TodoItemViewModelOneMock()));
+                => await todoService.Update(
+                    todo: TodoItemViewModelMock.TodoItemViewModelOneMock(),
+                    email: "teste@teste.com.br")
+                );
 
             // Assert
             Assert.Equal("Informações não são válidas", exception.Message);
@@ -273,7 +300,10 @@ namespace Todo.Tests.Unitary.Tests
             // Act
             var dto = TodoItemViewModelMock.TodoItemViewModelOneMock();
             dto.TodoId = null;
-            var exception = await Record.ExceptionAsync(async () => await todoService.Update(todo: dto));
+            var exception = await Record.ExceptionAsync(async () => await todoService.Update(
+                todo: dto,
+                email: "teste@teste.com.br")
+            );
 
             // Assert
             Assert.Equal("Não foi possível capturar o identificador.", exception.Message);

@@ -8,6 +8,7 @@ using Todo.Domain.Models;
 using System.Linq;
 using AutoMapper;
 using System;
+using Todo.Domain.Enum;
 
 namespace VUTTR.Service.Interfaces.Implementations
 {
@@ -27,8 +28,10 @@ namespace VUTTR.Service.Interfaces.Implementations
 
         private void ValidarStatus(int status)
         {
-            var res = _statusConfiguration.Where(x => x.Id == status).ToList();
-            if (res.Count == 0)
+            // var res = _statusConfiguration.Where(x => x.Id == status).ToList();
+            // if (res.Count == 0)
+            //     throw new Exception("Status não existe!");
+            if( !Enum.IsDefined(typeof(StatusTodoEnum), status) )
                 throw new Exception("Status não existe!");
         }
 
@@ -58,8 +61,11 @@ namespace VUTTR.Service.Interfaces.Implementations
             return _mapper.Map<TodoItemViewModel>(todoModel);
         }
 
-        public async Task<TodoItemViewModel> Insert(TodoItemViewModel todo)
+        public async Task<TodoItemViewModel> Insert(TodoItemViewModel todo, string email)
         {
+            if(todo.TodoId.HasValue)
+                throw new Exception("O item To Do já tem o ID informado!");
+
             var todoModel = _mapper.Map<TodoItem>(todo);
 
             if (!todoModel.isValid)
@@ -67,13 +73,20 @@ namespace VUTTR.Service.Interfaces.Implementations
 
             ValidarStatus((int)todoModel.Status);
 
+            var user = await _userService.GetByEmail(email);
+            todoModel.UserId = user.UserId;
+
             todoModel.GenerateDateInsertion();
+            todoModel.DateLastUpdate = null;
+
+            if(todoModel.Status != Todo.Domain.Enum.StatusTodoEnum.DONE && todoModel.DateConclusion.HasValue)
+                todoModel.DateConclusion = null;
 
             var todosModelAfterInsert = await _todoRepository.Insert(todoModel);
             return _mapper.Map<TodoItemViewModel>(todosModelAfterInsert);
         }
 
-        public async Task<TodoItemViewModel> Update(TodoItemViewModel todo)
+        public async Task<TodoItemViewModel> Update(TodoItemViewModel todo, string email)
         {
             if (!todo.TodoId.HasValue)
                 throw new Exception("Não foi possível capturar o identificador.");
@@ -87,6 +100,9 @@ namespace VUTTR.Service.Interfaces.Implementations
                 throw new Exception("Informações não são válidas");
 
             ValidarStatus((int)todoModel.Status);
+
+            var user = await _userService.GetByEmail(email);
+            todoModel.UserId = user.UserId;
 
             if (todoModel.Status == Todo.Domain.Enum.StatusTodoEnum.DONE)
                 todoModel.GenerateDateConclusion();

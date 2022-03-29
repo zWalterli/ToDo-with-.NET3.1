@@ -99,7 +99,7 @@ namespace VUTTR.API.Controllers
                     new ResponseViewModel<TodoItemViewModel>(
                         true,
                         "Registros inseridos com sucesso!",
-                        await _todoService.Insert(todo)
+                        await _todoService.Insert(todo, Email)
                     )
                 );
             }
@@ -120,7 +120,7 @@ namespace VUTTR.API.Controllers
                     new ResponseViewModel<TodoItemViewModel>(
                         true,
                         "Registros atualizados com sucesso!",
-                        await _todoService.Update(todo)
+                        await _todoService.Update(todo, Email)
                     )
                 );
             }

@@ -89,7 +89,7 @@ namespace VUTTR.API
                     .RequireAuthenticatedUser().Build());
             });
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnectionExpress");
 
             services.AddDbContext<TodoContext>(options =>
                 options.UseSqlServer( connectionString, b => b.MigrationsAssembly("Todo.API")));

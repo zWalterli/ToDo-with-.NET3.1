@@ -34,6 +34,8 @@ namespace Todo.Data.Repository.Implementations
         public async Task<List<TodoItem>> GetAll(int page, int pageSize)
         {
             return await _ctx.Todos
+                .AsNoTracking()
+                .Include(x => x.User)
                 .Skip( (page-1) * pageSize )
                 .Take( pageSize )
                 .ToListAsync();

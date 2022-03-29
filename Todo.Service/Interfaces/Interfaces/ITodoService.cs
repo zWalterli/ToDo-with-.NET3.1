@@ -9,8 +9,8 @@ namespace Todo.Service.Interfaces.Interfaces
         Task<List<TodoItemViewModel>> GetByUser(string email);
         Task<List<TodoItemAdministradorViewModel>> GetAll(string email, int page, int pageSize, bool onlyLate);
         Task<TodoItemViewModel> GetById(int todoId);
-        Task<TodoItemViewModel> Insert(TodoItemViewModel todo);
-        Task<TodoItemViewModel> Update(TodoItemViewModel todo);
+        Task<TodoItemViewModel> Insert(TodoItemViewModel todo, string email);
+        Task<TodoItemViewModel> Update(TodoItemViewModel todo, string email);
         Task Delete(int TodoId);
     }
 }
