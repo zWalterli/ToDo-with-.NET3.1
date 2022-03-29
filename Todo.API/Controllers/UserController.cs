@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Domain.ViewModels;
 using Todo.Service.Configuration;
@@ -22,9 +23,16 @@ namespace VUTTR.API.Controllers
             _perfilConfigurations = perfilConfigurations;
         }
 
+
+        /// <summary>
+        /// Get all perfil
+        /// </summary>
+        /// <returns>List with all perfil</returns>
         [HttpGet("Perfis/")]
         [Authorize("Bearer")]
-        public async Task<ActionResult<ResponseViewModel>> GetAllPerfis()
+        [ProducesResponseType(typeof(ResponseViewModel<List<PerfilConfiguration>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ResponseViewModel>> GetAllPerfil()
         {
             try
             {
@@ -42,8 +50,15 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Login in API
+        /// </summary>
+        /// <returns>Token from user</returns>
         [HttpPost("login")]
         [AllowAnonymousAttribute]
+        [ProducesResponseType(typeof(ResponseViewModel<TokenViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<ResponseViewModel>> Login([FromBody] UserViewModel user)
         {
             try
@@ -77,8 +92,14 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Register in API
+        /// </summary>
+        /// <returns>User registed</returns>
         [HttpPost("register")]
         [AllowAnonymousAttribute]
+        [ProducesResponseType(typeof(ResponseViewModel<UserViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ResponseViewModel>> Register([FromBody] UserViewModel user)
         {
             try
@@ -99,8 +120,14 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Update data to User
+        /// </summary>
+        /// <returns>User updated</returns>
         [HttpPut]
         [Authorize("Bearer")]
+        [ProducesResponseType(typeof(ResponseViewModel<UserViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ResponseViewModel>> Update([FromBody] UserViewModel user)
         {
             try

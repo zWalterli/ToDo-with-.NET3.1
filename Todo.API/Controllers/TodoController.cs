@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Todo.API.Controllers;
 using Todo.Domain.ViewModels;
@@ -24,6 +25,12 @@ namespace VUTTR.API.Controllers
             _statusConfigurations = statusConfigurations;
         }
 
+        /// <summary>
+        /// Get all status to To Do 
+        /// </summary>
+        /// <returns>List with all status</returns>
+        [ProducesResponseType(typeof(ResponseViewModel<List<StatusConfiguration>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         [HttpGet("Status/")]
         public async Task<ActionResult<ResponseViewModel>> GetAllStatus()
         {
@@ -44,6 +51,12 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get all To do
+        /// </summary>
+        /// <returns>List with all to do id</returns>
+        [ProducesResponseType(typeof(ResponseViewModel<List<TodoItemAdministradorViewModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         [HttpGet("Admin/")]
         public async Task<ActionResult<ResponseViewModel>> GetAll(
             [FromQuery] bool somenteAtrasados = false,
@@ -54,7 +67,7 @@ namespace VUTTR.API.Controllers
             try
             {
                 return Ok(
-                    new ResponseViewModel<ICollection<TodoItemAdministradorViewModel>>(
+                    new ResponseViewModel<List<TodoItemAdministradorViewModel>>(
                         true,
                         "Registros obtidos com sucesso!",
                         await _todoService.GetAll(Email, page, pageSize, somenteAtrasados)
@@ -69,13 +82,19 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get all To do by UserId
+        /// </summary>
+        /// <returns>List with To do by UserId</returns>
+        [ProducesResponseType(typeof(ResponseViewModel<List<TodoItemViewModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         [HttpGet("User/")]
         public async Task<ActionResult<ResponseViewModel>> GetByUser()
         {
             try
             {
                 return Ok(
-                    new ResponseViewModel<ICollection<TodoItemViewModel>>(
+                    new ResponseViewModel<List<TodoItemViewModel>>(
                         true,
                         "Registros obtidos com sucesso!",
                         await _todoService.GetByUser(this.Email)
@@ -90,6 +109,13 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert one To do
+        /// </summary>
+        /// <param name="todo"></param>
+        /// <returns>To do inserted</returns>
+        [ProducesResponseType(typeof(ResponseViewModel<TodoItemViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<ResponseViewModel>> Insert([FromBody] TodoItemViewModel todo)
         {
@@ -111,6 +137,13 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Update one To do
+        /// </summary>
+        /// <param name="todo"></param>
+        /// <returns>To do updated</returns>
+        [ProducesResponseType(typeof(ResponseViewModel<TodoItemViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         [HttpPut]
         public async Task<ActionResult<ResponseViewModel>> Update([FromBody] TodoItemViewModel todo)
         {
@@ -132,7 +165,15 @@ namespace VUTTR.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete one To do by Id
+        /// </summary>
+        /// <param name="TodoId">ToDo Id</param>
+        /// <returns>No content</returns>
+
         [HttpDelete("{TodoId}")]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ResponseViewModel>> Delete([FromRoute] int TodoId)
         {
             try
